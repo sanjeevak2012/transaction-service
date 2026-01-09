@@ -1,16 +1,14 @@
-from fastapi import FastAPI
+from flask import Flask
 
-app = FastAPI(title="Transaction Service")
+app = Flask(__name__)   # 👈 MUST be first
 
-@app.get("/health")
-def health():
-    return {"status": "UP"}
+@app.route("/")
+def home():
+    return "Transaction Service is running"
 
-@app.get("/transaction/{txn_id}")
-def transaction_status(txn_id: str):
-    return {
-        "transaction_id": txn_id,
-        "status": "SUCCESS",
-        "amount": 2500,
-        "currency": "INR"
-    }
+@app.route("/transaction")
+def transaction():
+    return "Transaction endpoint"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
